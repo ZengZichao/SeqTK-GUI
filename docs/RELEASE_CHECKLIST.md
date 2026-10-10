@@ -70,9 +70,11 @@ git status --short            # review this list line by line
 Expected: source, tests, fixtures, docs, screenshots, `LICENSE.txt`,
 `README*.md`, `CONTRIBUTING*.md`, `requirements.txt`, `pyproject.toml`,
 `.gitignore`, `.gitattributes`, `packaging/` (including `packaging/licenses/`),
-`tools/`, `bin/windows/seqtk.exe` and `bin/windows/LICENSE.seqtk.txt`.
+`tools/`, `bin/windows/seqtk.exe`, `bin/windows/LICENSE.seqtk.txt` and
+`dist/SeqTK-GUI.exe` (the packaged executable is tracked on purpose so the
+repository itself ships a runnable program).
 
-Must not appear: `__pycache__/`, `.pytest_cache/`, `build/`, `dist/`,
+Must not appear: `__pycache__/`, `.pytest_cache/`, `build/`,
 `*.ini` written under `docs/screenshots/`, any personal path, any input dataset.
 `build/SeqTK-GUI/*.toc` records absolute paths on the machine that built it
 (`D:\...`, `C:\Users\...`) - that is another reason `build/` stays ignored.
@@ -152,8 +154,9 @@ Suggested repository settings once it exists:
   bilingual documentation table.
 * Run the suite once on a clean clone to catch anything `.gitignore` swallowed.
 * Upload `dist/SeqTK-GUI.exe` (~48 MB) as a **Release** asset next to the tag -
-  it is the one-file download for users with no Python. Never commit it; `dist/`
-  is ignored on purpose, since a binary that large does not belong in git history.
+  it is the one-file download for users with no Python. The same file is also
+  tracked in the tree by design; after rebuilding it for a release, commit the
+  fresh binary and attach it to the Release in the same push.
 * Expect the first launch of the packaged exe to take a few seconds while
   PyInstaller unpacks to a temp folder, and consider Authenticode-signing it if
   your users hit SmartScreen or antivirus warnings.

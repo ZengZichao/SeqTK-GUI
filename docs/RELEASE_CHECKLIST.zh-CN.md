@@ -61,10 +61,11 @@ git status --short            # 逐行检查这个列表
 
 应当包含：源码、测试、测试数据、文档、截图、`LICENSE.txt`、`README*.md`、
 `CONTRIBUTING*.md`、`requirements.txt`、`pyproject.toml`、`.gitignore`、
-`.gitattributes`、`packaging/`（含 `packaging/licenses/`）、`tools/`，以及
-`bin/windows/seqtk.exe` 与 `bin/windows/LICENSE.seqtk.txt`。
+`.gitattributes`、`packaging/`（含 `packaging/licenses/`）、`tools/`、
+`bin/windows/seqtk.exe`、`bin/windows/LICENSE.seqtk.txt`，以及
+`dist/SeqTK-GUI.exe`（打包版刻意入库，让仓库本身就带一个可运行的程序）。
 
-不应出现：`__pycache__/`、`.pytest_cache/`、`build/`、`dist/`、`docs/screenshots/`
+不应出现：`__pycache__/`、`.pytest_cache/`、`build/`、`docs/screenshots/`
 下生成的 `*.ini`、任何个人路径、任何真实数据集。`build/SeqTK-GUI/*.toc` 会记录构建机
 上的绝对路径（形如盘符加 `Users` 的个人目录），这也是 `build/` 必须保持被忽略的
 另一个原因。
@@ -137,7 +138,7 @@ git push -u origin main --follow-tags
 * 在 GitHub 上确认 README 渲染正常，两张截图与双语文档表格都能显示。
 * 在干净的克隆目录再跑一次测试，排查被 `.gitignore` 误伤的文件。
 * 把 `dist/SeqTK-GUI.exe`（约 48 MB）作为 tag 的 **Releases** 附件上传——它就是给没有
-  Python 的用户的单文件下载包。不要提交进仓库：`dist/` 已被忽略，这么大的二进制不该进
-  git 历史。
+  Python 的用户的单文件下载包。同一文件也刻意保留在仓库树里；每次为发布重新构建后，
+  在同一次推送中提交新的二进制并更新 Release 附件。
 * 打包版首次启动需要几秒解压到临时目录；如果用户遇到 SmartScreen 或杀毒软件告警，考虑给
   exe 做代码签名。

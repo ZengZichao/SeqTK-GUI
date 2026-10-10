@@ -10,9 +10,11 @@ env/
 .coverage
 htmlcov/
 
-# Build output
+# Build output. dist/ stays ignored except the packaged executable itself,
+# which is tracked on purpose so the repository ships a runnable SeqTK-GUI.exe.
 build/
-dist/
+dist/*
+!dist/SeqTK-GUI.exe
 *.spec.d
 .eggs/
 
