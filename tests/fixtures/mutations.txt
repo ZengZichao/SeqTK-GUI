@@ -1,0 +1,2 @@
+Seq1	3	x	T
+Seq3	1	x	C

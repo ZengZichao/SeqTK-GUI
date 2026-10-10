@@ -1,0 +1,20 @@
+@pair1/1 first mate of pair one
+ACGTACGTNN
++
+IIIIIIIIII
+@pair1/2 second mate of pair one
+TTAAGGCCAA
++
+IIIIIIIIII
+@pair2/1 first mate of pair two
+ACGAAGTGCC
++
+;;;;9;;;3:
+@pair2/2 second mate of pair two
+GGCCAATTGG
++
+9;;:;;;3:I
+@lonely/1 unpaired read to be dropped
+CCGGTTAACG
++
+IIII;9IIFD

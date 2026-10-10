@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Build output
+build/
+dist/
+*.spec.d
+.eggs/
+
+# Native seqtk builds. bin/windows/seqtk.exe is tracked on purpose so a clone
+# runs out of the box; delete it here if you prefer Release assets. Builds for
+# the other platforms land under bin/macos/ and bin/linux/ and are not tracked.
+*.o
+*.obj
+*.pdb
+bin/macos/
+bin/linux/
+
+# Patch and merge leftovers
+*.orig
+*.rej
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Runtime data
+logs/
+*.log
+seqtk_*_output*
+
+# QSettings scratch files anywhere in the tree (desktop.ini above stays
+# redundant-but-explicit for the Windows Explorer marker)
+*.ini
+
+# Local tooling state
+.mimosa/
+.zcodeignore

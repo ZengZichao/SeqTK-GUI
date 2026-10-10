@@ -1,0 +1,6 @@
+# Runtime dependency of the GUI. seqtk itself is a separate native executable.
+PySide6>=6.5,<7
+
+# Test-only dependency (optional; the tests are plain unittest style and need
+# nothing beyond PySide6 unless you want `pytest` features).
+pytest>=7.0

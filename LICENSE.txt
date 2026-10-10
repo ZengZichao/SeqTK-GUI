@@ -1,0 +1,145 @@
+MIT License
+
+Copyright (c) 2026 SeqTK-GUI contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Third-party notice: seqtk
+
+This project is an unofficial graphical front end for "seqtk" (v1.5-r133,
+https://github.com/lh3/seqtk), written by Heng Li and MIT-licensed. It is not
+affiliated with, endorsed by, or supported by the seqtk project or its author,
+and nothing here is an official release of seqtk.
+
+Two kinds of seqtk material appear in this project, and both stay under seqtk's
+own MIT terms, not under the project license above:
+
+1. The Python code in seqtk_gui/core/spec.py and the help text in
+   docs/COMMANDS*.md transcribe seqtk's option strings and usage text. These are
+   derivative works of seqtk.
+
+2. bin/windows/seqtk.exe is a compiled binary built from unmodified upstream
+   seqtk.c plus a local MinGW compatibility shim
+   (tools/seqtk-build/mingw_prng_shim.c); see docs/BUILD_SEQTK.md. Because this
+   binary is a copy of seqtk, the permission notice below is also reproduced
+   verbatim, byte for byte, in bin/windows/LICENSE.seqtk.txt so that it travels
+   with the binary itself and inside the packaged application.
+
+The license of the upstream seqtk source is reproduced verbatim below, exactly
+as it appears in the upstream LICENSE file, including the typographical error
+"20082-2012" in its copyright line. It has deliberately NOT been corrected.
+
+The MIT License
+Copyright (c) 20082-2012 by Heng Li <lh3@me.com>
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Third-party notice: kseq.h and khash.h
+
+bin/windows/seqtk.exe is not built from seqtk.c alone. Upstream seqtk.c does
+#include "kseq.h" and #include "khash.h", and the upstream Makefile names both
+headers as prerequisites of the seqtk target (`seqtk:seqtk.c khash.h kseq.h`).
+They are therefore compiled into the distributed binary as part of it, which
+makes this a copy of those two libraries as much as a copy of seqtk - and MIT
+binds the notice to *all copies or substantial portions*, including a binary.
+
+Both headers are MIT-licensed by Attractive Chaos. Their license blocks are
+reproduced below, each verbatim from the top of its own file. The two copyright
+lines are worded differently - khash.h reads "2008, 2009, 2011 by Attractive
+Chaos", kseq.h reads "2008, 2009, 2011 Attractive Chaos" without the "by" - and
+that difference is preserved rather than normalised, because a verbatim notice
+is copied, not rewritten.
+
+khash.h:
+
+/* The MIT License
+
+   Copyright (c) 2008, 2009, 2011 by Attractive Chaos <attractor@live.co.uk>
+
+   Permission is hereby granted, free of charge, to any person obtaining
+   a copy of this software and associated documentation files (the
+   "Software"), to deal in the Software without restriction, including
+   without limitation the rights to use, copy, modify, merge, publish,
+   distribute, sublicense, and/or sell copies of the Software, and to
+   permit persons to whom the Software is furnished to do so, subject to
+   the following conditions:
+
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+*/
+
+kseq.h:
+
+/* The MIT License
+
+   Copyright (c) 2008, 2009, 2011 Attractive Chaos <attractor@live.co.uk>
+
+   Permission is hereby granted, free of charge, to any person obtaining
+   a copy of this software and associated documentation files (the
+   "Software"), to deal in the Software without restriction, including
+   without limitation the rights to use, copy, modify, merge, publish,
+   distribute, sublicense, and/or sell copies of the Software, and to
+   permit persons to whom the Software is furnished to do so, subject to
+   the following conditions:
+
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+*/
+
+The email address above belongs to the authors of those headers and is
+reproduced only because their license requires the notice to be kept intact.
+The same two notices are listed, with the same scope, in
+docs/THIRD_PARTY_NOTICES.md and docs/THIRD_PARTY_NOTICES.zh-CN.md.

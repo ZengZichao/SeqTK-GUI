@@ -1,0 +1,34 @@
+# Line endings are fixed here rather than left to each clone's core.autocrlf.
+# Git for Windows defaults to core.autocrlf=true, which rewrites LF to CRLF on
+# checkout. That silently breaks two things in this repository: the byte
+# comparison in tests/test_docs_are_generated.py (the generator always writes LF)
+# and the seqtk fixtures, whose exact bytes are what the assertions run on.
+
+* text=auto eol=lf
+
+# Shell scripts are executed by bash, which rejects CRLF line endings.
+*.sh text eol=lf
+
+# Batch files are executed by cmd.exe, which wants CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Sequence and interval data: store and check out the bytes exactly as written.
+tests/fixtures/* -text
+*.fa -text
+*.fasta -text
+*.fq -text
+*.fastq -text
+*.bed -text
+*.gz -text
+
+# Binaries and images: no conversion, no textual diff.
+*.exe binary
+*.dll binary
+*.pyd binary
+*.zip binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
