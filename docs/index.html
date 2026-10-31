@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SeqTK-GUI — An unofficial graphical front end for seqtk, the fast and lightweight toolkit for processing sequences in FASTA/Q format.">
+<meta name="author" content="SeqTK-GUI contributors">
+<title>SeqTK-GUI — Graphical Front End for seqtk</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+
+<!-- ============================================================= -->
+<!-- Header                                                        -->
+<!-- ============================================================= -->
+<header>
+  <div class="container">
+    <img class="logo" src="logo.png" alt="SeqTK-GUI logo">
+    <h1>SeqTK-GUI</h1>
+    <p class="tagline">An unofficial graphical front end for
+      <a href="https://github.com/lh3/seqtk">seqtk</a> &mdash; the fast and
+      lightweight toolkit for processing sequences in FASTA/Q format.</p>
+    <div class="badges">
+      <a class="badge" href="https://github.com/ZengZichao/SeqTK-GUI/releases">Download</a>
+      <a class="badge" href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/USER_GUIDE.md">User Guide</a>
+      <a class="badge" href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/COMMANDS.md">Command Reference</a>
+      <a class="badge" href="https://github.com/ZengZichao/SeqTK-GUI">Source Code</a>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <a href="#overview">Overview</a>
+  <a href="#features">Features</a>
+  <a href="#screenshots">Screenshots</a>
+  <a href="#commands">Commands</a>
+  <a href="#getting-started">Getting Started</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#license">License</a>
+</nav>
+
+<!-- ============================================================= -->
+<!-- Main                                                          -->
+<!-- ============================================================= -->
+<main>
+<div class="container">
+
+<!-- Overview -->
+<section id="overview">
+  <h2>Overview</h2>
+  <p>
+    <strong>SeqTK-GUI</strong> provides a graphical user interface for
+    <a href="https://github.com/lh3/seqtk">seqtk</a> 1.5-r133, a widely used
+    command-line tool for processing biological sequences in
+    <em>FASTA</em> and <em>FASTQ</em> formats. Rather than reimplementing any
+    of seqtk's algorithms, the GUI builds command-line arguments from user
+    input and runs the real <code>seqtk</code> executable as a child process.
+    Every byte of sequence processing is performed by upstream seqtk itself.
+  </p>
+  <p>
+    The application covers <strong>all 24 subcommands</strong> that seqtk
+    1.5-r133 dispatches from its <code>main()</code> function &mdash; the 22
+    documented ones plus <code>hrun</code> and <code>kfreq</code>, which are
+    reachable but absent from seqtk's own usage text. Each subcommand's option
+    set, value types, defaults, and ranges are transcribed directly from the
+    upstream <code>seqtk.c</code> source, not guessed or copied from help text.
+  </p>
+  <div class="callout">
+    <p>
+      <strong>Disclaimer.</strong> This is an unofficial project. It is not
+      affiliated with, endorsed by, or supported by seqtk or its author. The
+      name &ldquo;seqtk&rdquo; belongs to the upstream project and is used here
+      only to describe what this front end drives. This software is provided
+      &ldquo;as is&rdquo;, without warranty of any kind.
+    </p>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <h2>Key Features</h2>
+  <ul class="features">
+    <li><strong>Complete command coverage.</strong> All 24 subcommands of seqtk
+      1.5-r133, including the two undocumented ones.</li>
+    <li><strong>Source-derived specification.</strong> Every option, default
+      value, and type range is transcribed from <code>seqtk.c</code>'s
+      <code>getopt()</code> strings and variable initialisations &mdash; when
+      the usage text and the code disagree, the code wins.</li>
+    <li><strong>Non-blocking execution.</strong> seqtk runs via
+      <code>QProcess</code> with separate stdout, stderr, and command-line
+      channels displayed in three tabs. The UI stays responsive throughout.</li>
+    <li><strong>Streaming to file.</strong> Optional stdout-to-file redirect
+      passes a file handle directly to the child process &mdash; the GUI
+      equivalent of <code>&gt;</code> &mdash; so multi-gigabyte FASTA never
+      enters memory.</li>
+    <li><strong>Bilingual UI.</strong> Chinese and English interfaces,
+      switchable at runtime without restart.</li>
+    <li><strong>Light / dark theme.</strong> Both palettes switchable at
+      runtime; preferences persist between launches.</li>
+    <li><strong>Drag-and-drop input.</strong> Drop a FASTA/FASTQ file onto the
+      window to fill the first file field automatically.</li>
+    <li><strong>Persistent state.</strong> Language, theme, working directory,
+      recent files, and per-command parameter state are all remembered.</li>
+    <li><strong>Self-contained build.</strong> A single
+      <code>SeqTK-GUI.exe</code> bundles the native seqtk binary and both
+      translation catalogs &mdash; no Python installation required on the target
+      machine.</li>
+  </ul>
+</section>
+
+<!-- Screenshots -->
+<section id="screenshots">
+  <h2>Screenshots</h2>
+  <div class="screenshot-grid">
+    <figure>
+      <img src="screenshots/light-en.png" alt="SeqTK-GUI in light theme, English">
+      <figcaption>Light theme &mdash; English</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/dark-en.png" alt="SeqTK-GUI in dark theme, English">
+      <figcaption>Dark theme &mdash; English</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/light-zh.png" alt="SeqTK-GUI in light theme, Chinese">
+      <figcaption>明亮主题 &mdash; 中文</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/dark-zh.png" alt="SeqTK-GUI in dark theme, Chinese">
+      <figcaption>黑暗主题 &mdash; 中文</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Commands -->
+<section id="commands">
+  <h2>Supported Commands</h2>
+  <p>
+    The GUI exposes all 24 subcommands of seqtk 1.5-r133, grouped to mirror
+    upstream's own usage output. The full command reference with every option,
+    default, and positional argument is available in the
+    <a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/COMMANDS.md">Command Reference</a>.
+  </p>
+
+  <h3>General Processing</h3>
+  <div class="cmd-tags">
+    <span class="cmd-tag">seq</span>
+    <span class="cmd-tag">size</span>
+    <span class="cmd-tag">comp</span>
+    <span class="cmd-tag">sample</span>
+    <span class="cmd-tag">subseq</span>
+    <span class="cmd-tag">fqchk</span>
+    <span class="cmd-tag">mergepe</span>
+    <span class="cmd-tag">split</span>
+    <span class="cmd-tag">trimfq</span>
+  </div>
+
+  <h3>Regional Analysis</h3>
+  <div class="cmd-tags">
+    <span class="cmd-tag">hety</span>
+    <span class="cmd-tag">gc</span>
+    <span class="cmd-tag">mutfa</span>
+    <span class="cmd-tag">mergefa</span>
+    <span class="cmd-tag">famask</span>
+    <span class="cmd-tag">dropse</span>
+    <span class="cmd-tag">rename</span>
+    <span class="cmd-tag">randbase</span>
+    <span class="cmd-tag">cutN</span>
+    <span class="cmd-tag">gap</span>
+    <span class="cmd-tag">listhet</span>
+    <span class="cmd-tag">hpc</span>
+    <span class="cmd-tag">telo</span>
+  </div>
+
+  <h3>Undocumented (reachable from <code>main()</code> but not in usage text)</h3>
+  <div class="cmd-tags">
+    <span class="cmd-tag">hrun</span>
+    <span class="cmd-tag">kfreq</span>
+  </div>
+
+  <p>
+    The command specification in <code>seqtk_gui/core/spec.py</code> is the
+    single source of truth: the documentation, the GUI forms, and the test
+    suite all consume the same data. An automated test
+    (<code>test_seqtk_execution.py</code>) runs <strong>every subcommand and
+    every option</strong> against a real seqtk binary, and another test
+    (<code>test_spec_against_source.py</code>) re-checks the option sets against
+    the upstream <code>getopt</code> strings.
+  </p>
+</section>
+
+<!-- Getting Started -->
+<section id="getting-started">
+  <h2>Getting Started</h2>
+
+  <h3>Download the packaged executable</h3>
+  <p>
+    The easiest way to get started is to download the self-contained
+    <code>SeqTK-GUI.exe</code> from the
+    <a href="https://github.com/ZengZichao/SeqTK-GUI/releases">Releases</a> page.
+    No Python installation is needed &mdash; the seqtk binary and both
+    translation catalogs are packed inside.
+  </p>
+
+  <h3>Run from source</h3>
+  <p>Requires Python 3.10+ (3.11 recommended) and PySide6 6.5&ndash;6.x:</p>
+  <pre><code>pip install -r requirements.txt
+python main.py</code></pre>
+  <p>
+    On first start the app looks for <code>seqtk</code> in this order:
+  </p>
+  <ol>
+    <li>the path saved in settings (set via <strong>Tools &rarr; Locate seqtk executable&hellip;</strong>);</li>
+    <li><code>bin/windows/seqtk.exe</code> bundled with the repository;</li>
+    <li><code>seqtk</code> on <code>PATH</code>.</li>
+  </ol>
+  <p>
+    The status bar always shows which executable is in use and the version it
+    reported.
+  </p>
+
+  <h3>Typical workflow</h3>
+  <ol>
+    <li>Pick a subcommand on the left (the filter box matches command names and upstream help text).</li>
+    <li>Fill in the inputs; drag a FASTA/FASTQ file onto the window to drop it into the first file field.</li>
+    <li>Tick the options you need. Unticked options are <strong>not</strong> passed to seqtk, so upstream defaults stay in charge.</li>
+    <li>Check the command line tab, then press <strong>Run</strong> (Ctrl+R).</li>
+    <li>Read stdout in the result tab, warnings and errors in the log tab. For large outputs tick <strong>Write stdout to a file</strong> first.</li>
+  </ol>
+
+  <h3>Build a single-file executable</h3>
+  <pre><code>tools\build_exe_windows.bat</code></pre>
+  <p>
+    Produces <code>dist/SeqTK-GUI.exe</code> &mdash; one file, no Python
+    required. See the
+    <a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/DEVELOPMENT.md">Development Guide</a>
+    for details.
+  </p>
+</section>
+
+<!-- Architecture -->
+<section id="architecture">
+  <h2>Architecture</h2>
+  <p>
+    The codebase follows a strict layered architecture: <code>core</code>
+    imports no Qt widgets, <code>i18n</code> imports no <code>ui</code>, and
+    <code>ui</code> is the only layer that touches widgets. The specification
+    module (<code>core/spec.py</code>) imports nothing but the standard library,
+    which is why the tests and the documentation generator can consume it
+    without a display.
+  </p>
+  <div class="arch">main.py
+  └─ seqtk_gui/app.py            QApplication, settings, language, theme
+       └─ ui/main_window.py      wires everything together
+            ├─ ui/command_list.py   24 subcommands, grouped + filterable
+            ├─ ui/param_panel.py    form generated from core/spec.py
+            ├─ ui/output_panel.py   stdout / stderr / command line tabs
+            ├─ ui/themes.py         light + dark palette and stylesheet
+            └─ ui/about_dialog.py   unofficial notice, license text
+                 │
+                 ├─ core/cli_build.py    spec + form values -> argv, validation
+                 ├─ core/runner.py       QProcess: streaming, optional stdout->file
+                 ├─ core/binary_locator.py  find seqtk, read its reported version
+                 ├─ core/paths.py        per-platform layout
+                 ├─ core/settings.py     persisted preferences
+                 └─ i18n/catalog.py      JSON catalogs, runtime language switch</div>
+  <p>
+    The dependency on seqtk is a <strong>child process</strong>, not a library
+    link. The GUI builds an <code>argv</code> list from the spec and the form
+    values, spawns <code>seqtk</code> via <code>QProcess</code>, and streams the
+    output back. Nothing in Python touches the sequence data.
+  </p>
+</section>
+
+<!-- Documentation -->
+<section id="documentation">
+  <h2>Documentation</h2>
+  <table>
+    <thead>
+      <tr><th>Document</th><th>English</th><th>中文</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>User Guide</td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/USER_GUIDE.md">USER_GUIDE.md</a></td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/USER_GUIDE.zh-CN.md">USER_GUIDE.zh-CN.md</a></td>
+      </tr>
+      <tr>
+        <td>Command Reference</td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/COMMANDS.md">COMMANDS.md</a></td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/COMMANDS.zh-CN.md">COMMANDS.zh-CN.md</a></td>
+      </tr>
+      <tr>
+        <td>Building seqtk</td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/BUILD_SEQTK.md">BUILD_SEQTK.md</a></td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/BUILD_SEQTK.zh-CN.md">BUILD_SEQTK.zh-CN.md</a></td>
+      </tr>
+      <tr>
+        <td>Development Guide</td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/DEVELOPMENT.md">DEVELOPMENT.md</a></td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/DEVELOPMENT.zh-CN.md">DEVELOPMENT.zh-CN.md</a></td>
+      </tr>
+      <tr>
+        <td>Third-Party Notices</td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/THIRD_PARTY_NOTICES.md">THIRD_PARTY_NOTICES.md</a></td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/THIRD_PARTY_NOTICES.zh-CN.md">THIRD_PARTY_NOTICES.zh-CN.md</a></td>
+      </tr>
+      <tr>
+        <td>Release Checklist</td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/RELEASE_CHECKLIST.md">RELEASE_CHECKLIST.md</a></td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/RELEASE_CHECKLIST.zh-CN.md">RELEASE_CHECKLIST.zh-CN.md</a></td>
+      </tr>
+      <tr>
+        <td>Contributing</td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a></td>
+        <td><a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/CONTRIBUTING.zh-CN.md">CONTRIBUTING.zh-CN.md</a></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Technical Details -->
+<section id="technical">
+  <h2>Technical Details</h2>
+
+  <h3>Requirements</h3>
+  <table>
+    <thead><tr><th>Component</th><th>Requirement</th></tr></thead>
+    <tbody>
+      <tr><td>Operating System</td><td>Windows 10 / 11 (x64); code paths are platform-split for macOS</td></tr>
+      <tr><td>Packaged exe</td><td>No dependencies &mdash; <code>dist/SeqTK-GUI.exe</code> is self-contained</td></tr>
+      <tr><td>From source</td><td>Python 3.10+ (3.11 recommended), PySide6 6.5&ndash;6.x</td></tr>
+      <tr><td>seqtk</td><td>Bundled at <code>bin/windows/seqtk.exe</code>, or provide your own build</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Testing</h3>
+  <pre><code>python -m pytest tests -q</code></pre>
+  <p>
+    The test suite checks the spec against the <code>getopt</code> strings and
+    the <code>main()</code> dispatch chain parsed from <code>seqtk.c</code> at
+    run time, translates every UI key in both languages, drives the widgets
+    offscreen, and &mdash; when a seqtk binary is present &mdash; executes every
+    subcommand and every option against it.
+  </p>
+
+  <h3>Repository Layout</h3>
+  <pre><code>main.py                     entry point
+seqtk_gui/
+  core/spec.py              seqtk 1.5-r133 CLI surface, as data
+  core/cli_build.py         spec + form values -> argv
+  core/runner.py            QProcess streaming, stdout optionally to file
+  core/binary_locator.py    locate seqtk and read its version
+  core/paths.py             per-platform layout
+  core/settings.py          persisted preferences
+  i18n/                     Chinese and English catalogs
+  ui/                       main window, dynamic form, output tabs, themes
+bin/windows/seqtk.exe       seqtk built from upstream source
+tools/seqtk-build/          build recipes for the native binary
+tests/                      unit + real-binary integration tests
+docs/                       bilingual documentation, generated command table</code></pre>
+</section>
+
+<!-- License -->
+<section id="license">
+  <h2>License</h2>
+  <p>
+    SeqTK-GUI is licensed under the <strong>MIT License</strong>. See
+    <a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/LICENSE.txt">LICENSE.txt</a>
+    for the full text, which also reproduces the upstream seqtk MIT notice and
+    the notices of <code>kseq.h</code> and <code>khash.h</code> &mdash; the two
+    headers compiled into the bundled <code>seqtk.exe</code>.
+  </p>
+  <p>
+    Qt / PySide6 is used under the
+    <a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/packaging/licenses/LGPL-3.0-only.txt">LGPL-3.0-only</a>
+    option. See
+    <a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/docs/THIRD_PARTY_NOTICES.md">THIRD_PARTY_NOTICES.md</a>
+    for full details on Qt/PySide6, zlib, OpenSSL, and other components.
+  </p>
+</section>
+
+</div>
+</main>
+
+<!-- ============================================================= -->
+<!-- Footer                                                        -->
+<!-- ============================================================= -->
+<footer>
+  <div class="container">
+    <p>
+      <a href="https://github.com/ZengZichao/SeqTK-GUI">GitHub</a>
+      &middot;
+      <a href="https://github.com/ZengZichao/SeqTK-GUI/releases">Releases</a>
+      &middot;
+      <a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/LICENSE.txt">MIT License</a>
+      &middot;
+      <a href="https://github.com/ZengZichao/SeqTK-GUI/blob/main/CONTRIBUTING.md">Contributing</a>
+    </p>
+    <p>
+      SeqTK-GUI &mdash; an unofficial graphical front end for
+      <a href="https://github.com/lh3/seqtk">seqtk</a>.
+      Not affiliated with or endorsed by seqtk or its author.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
